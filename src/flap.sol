@@ -29,9 +29,9 @@ import "./flop.sol";
 // }
 
 /*
-   This thing lets you sell some dai in return for gems.
+   This thing lets you sell some stbl in return for gems.
 
- - `lot` dai for sale
+ - `lot` stbl for sale
  - `bid` gems paid
  - `ttl` single bid lifetime
  - `beg` minimum bid increase

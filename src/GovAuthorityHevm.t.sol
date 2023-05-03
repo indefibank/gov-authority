@@ -1,9 +1,9 @@
 pragma solidity >=0.5.12;
 
 // import "ds-test/test.sol";
-// import "./MkrAuthority.sol";
+// import "./GovAuthority.sol";
 
-// import "./MkrAuthority.sol";
+// import "./GovAuthority.sol";
 // import "./flop.sol";
 // import "./flap.sol";
 
@@ -22,32 +22,32 @@ pragma solidity >=0.5.12;
 // }
 
 // contract User {
-//     ERC20 mkr;
+//     ERC20 gov;
 //     GemPit pit;
 
-//     constructor(ERC20 mkr_, GemPit pit_) public {
-//         mkr = mkr_;
+//     constructor(ERC20 gov_, GemPit pit_) public {
+//         gov = gov_;
 //         pit = pit_;
 //     }
 
 //     function doApprove(address whom, uint256 wad) external returns (bool) {
-//         mkr.approve(whom, wad);
+//         gov.approve(whom, wad);
 //     }
 
 //     function doMint(uint256 wad) external {
-//         mkr.mint(address(this), wad);
+//         gov.mint(address(this), wad);
 //     }
 
 //     function doBurn(uint256 wad) external {
-//         mkr.burn(wad);
+//         gov.burn(wad);
 //     }
 
 //     function doBurn(address whom, uint256 wad) external {
-//         mkr.burn(whom, wad);
+//         gov.burn(whom, wad);
 //     }
 
 //     function burnPit() external {
-//         pit.burn(address(mkr));
+//         pit.burn(address(gov));
 //     }
 // }
 
@@ -55,69 +55,69 @@ pragma solidity >=0.5.12;
 //     function burn(address gem) external;
 // }
 
-// contract MkrAuthorityTest is DSTest {
+// contract GovAuthorityTest is DSTest {
 //     // Test with this:
 //     // It uses the Multisig as the caller
 //     // dapp build
 //     // DAPP_TEST_TIMESTAMP=$(seth block latest timestamp) DAPP_TEST_NUMBER=$(seth block latest number) DAPP_TEST_ADDRESS=0x8EE7D9235e01e6B42345120b5d270bdB763624C7 hevm dapp-test --rpc=$ETH_RPC_URL --json-file=out/dapp.sol.json
 
-//     ERC20 mkr;
+//     ERC20 gov;
 //     GemPit pit;
 //     User user1;
 //     User user2;
-//     MkrAuthority auth;
+//     GovAuthority auth;
 
 //     function setUp() public {
-//         mkr = ERC20(0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2);
+//         gov = ERC20(0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2);
 //         pit = GemPit(0x69076e44a9C70a67D5b79d95795Aba299083c275);
-//         user1 = new User(mkr, pit);
-//         user2 = new User(mkr, pit);
+//         user1 = new User(gov, pit);
+//         user2 = new User(gov, pit);
 
-//         auth = new MkrAuthority();
-//         mkr.setAuthority(address(auth));
-//         mkr.setOwner(address(0));
+//         auth = new GovAuthority();
+//         gov.setAuthority(address(auth));
+//         gov.setOwner(address(0));
 //     }
 
 //     function testCanChangeAuthority() public {
-//         MkrAuthority newAuth = new MkrAuthority();
-//         mkr.setAuthority(address(newAuth));
-//         assertTrue(MkrAuthority(mkr.authority()) == newAuth);
+//         GovAuthority newAuth = new GovAuthority();
+//         gov.setAuthority(address(newAuth));
+//         assertTrue(GovAuthority(gov.authority()) == newAuth);
 //     }
 
 //     function testCanChangeOwner() public {
-//         mkr.setOwner(msg.sender);
-//         assertTrue(mkr.owner() == msg.sender);
+//         gov.setOwner(msg.sender);
+//         assertTrue(gov.owner() == msg.sender);
 //     }
 
 //     function testCanBurnOwn() public {
-//         assertTrue(MkrAuthority(mkr.authority()) == auth);
+//         assertTrue(GovAuthority(gov.authority()) == auth);
 
-//         assertTrue(mkr.owner() == address(0));
+//         assertTrue(gov.owner() == address(0));
 
-//         mkr.transfer(address(user1), 1);
+//         gov.transfer(address(user1), 1);
 //         user1.doBurn(1);
 //     }
 
 //     function testCanBurnFromOwn() public {
-//         mkr.transfer(address(user1), 1);
+//         gov.transfer(address(user1), 1);
 //         user1.doBurn(address(user1), 1);
 //     }
 
 //     function testCanBurnPit() public {
-//         assertEq(mkr.balanceOf(address(user1)), 0);
+//         assertEq(gov.balanceOf(address(user1)), 0);
 
-//         uint256 pitBalance = mkr.balanceOf(address(pit));
+//         uint256 pitBalance = gov.balanceOf(address(pit));
 //         assertTrue(pitBalance > 0);
 
 //         user1.burnPit();
-//         assertEq(mkr.balanceOf(address(pit)), 0);
+//         assertEq(gov.balanceOf(address(pit)), 0);
 //     }
 
 //     function testFailNoApproveAndBurn() public {
-//         mkr.transfer(address(user1), 1);
+//         gov.transfer(address(user1), 1);
 
-//         assertEq(mkr.balanceOf(address(user1)), 1);
-//         assertEq(mkr.balanceOf(address(user2)), 0);
+//         assertEq(gov.balanceOf(address(user1)), 1);
+//         assertEq(gov.balanceOf(address(user2)), 0);
 
 //         user2.doBurn(address(user1), 1);
 //     }
@@ -127,50 +127,50 @@ pragma solidity >=0.5.12;
 //     }
 
 //     function testApproveAndBurn() public {
-//         mkr.transfer(address(user1), 1);
+//         gov.transfer(address(user1), 1);
 
-//         assertEq(mkr.balanceOf(address(user1)), 1);
-//         assertEq(mkr.balanceOf(address(user2)), 0);
+//         assertEq(gov.balanceOf(address(user1)), 1);
+//         assertEq(gov.balanceOf(address(user2)), 0);
 
 //         user1.doApprove(address(user2), 1);
 //         user2.doBurn(address(user1), 1);
 
-//         assertEq(mkr.balanceOf(address(user1)), 0);
-//         assertEq(mkr.balanceOf(address(user2)), 0);
+//         assertEq(gov.balanceOf(address(user1)), 0);
+//         assertEq(gov.balanceOf(address(user2)), 0);
 //     }
 
-//     function testFullMkrAuthTest() public {
+//     function testFullGovAuthTest() public {
 //         //update the authority
 //         //this works because HEVM allows us to set the caller address
-//         mkr.setAuthority(address(auth));
-//         assertTrue(address(mkr.authority()) == address(auth));
-//         mkr.setOwner(address(0));
-//         assertTrue(address(mkr.owner()) == address(0));
+//         gov.setAuthority(address(auth));
+//         assertTrue(address(gov.authority()) == address(auth));
+//         gov.setOwner(address(0));
+//         assertTrue(address(gov.owner()) == address(0));
 
 //         //get the balance of this contract for some asserts
-//         uint balance = mkr.balanceOf(address(this));
+//         uint balance = gov.balanceOf(address(this));
 
 //         //test that we are allowed to mint
-//         mkr.mint(address(this), 10);
-//         assertEq(balance + 10, mkr.balanceOf(address(this)));
+//         gov.mint(address(this), 10);
+//         assertEq(balance + 10, gov.balanceOf(address(this)));
 
 //         //test that we are allowed to burn
-//         mkr.burn(address(this), 1);
-//         assertEq(balance + 9, mkr.balanceOf(address(this)));
+//         gov.burn(address(this), 1);
+//         assertEq(balance + 9, gov.balanceOf(address(this)));
 
 //         //create a flopper
-//         Flopper flop = new Flopper(address(this), address(mkr));
+//         Flopper flop = new Flopper(address(this), address(gov));
 //         auth.rely(address(flop));
 
-//         //call flop.kick() and flop.deal() which will in turn test the mkr.burn() function
+//         //call flop.kick() and flop.deal() which will in turn test the gov.burn() function
 //         flop.kick(address(this), 1, 1);
 //         flop.deal(1);
 
 //         //create a flapper
-//         Flapper flap = new Flapper(address(this), address(mkr));
+//         Flapper flap = new Flapper(address(this), address(gov));
 //         auth.rely(address(flop));
 
-//         //call flap.kick() and flap.deal() which will in turn test the mkr.mint() function
+//         //call flap.kick() and flap.deal() which will in turn test the gov.mint() function
 //         flap.kick(1, 1);
 //         flop.deal(1);
 //     }

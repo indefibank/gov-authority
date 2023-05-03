@@ -1,4 +1,4 @@
-/// MkrAuthority -- custom authority for MKR token access control
+/// GovAuthority -- custom authority for GOV token access control
 
 // Copyright (C) 2019 Maker Ecosystem Growth Holdings, INC.
 //
@@ -17,7 +17,7 @@
 
 pragma solidity >=0.5.12;
 
-contract MkrAuthority {
+contract GovAuthority {
   address public root;
   modifier sudo { require(msg.sender == root); _; }
   event LogSetRoot(address indexed newRoot);
